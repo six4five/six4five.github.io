@@ -124,65 +124,133 @@
     }
 </script>
             <div class="main">
-                
-    <div class="container profile-container">
-    <div class="intro">
-        <div class="avatar">
-            <a href="/six4five/six4five.github.io.git/archives"><img src="/six4five/six4five.github.io.git/image/avatar.jpeg"></a>
-        </div>
-        <div class="nickname">six4five</div>
-        <div class="description"><p>Arithmancy, Ravenclaw, Hogwarts</p>
-</div>
-        <div class="links">
-            
-                
-                    <a class="link-item" title="Blog" href="/archives">
-                        
-                            Blog
-                        
-                        
-                    </a>
-                
-                    <a class="link-item" title="Resume" href="/resume">
-                        
-                            Resume
-                        
-                        
-                    </a>
-                
-                    <a class="link-item" title="Gallery" href="/gallery">
-                        
-                            Gallery
-                        
-                        
-                    </a>
-                
-                    <a class="link-item" title="Github" href="https://github.com/six4five">
-                        
-                            Github
-                        
-                        
-                    </a>
-                
-                    <a class="link-item" title="CSDN" target="_blank" rel="noopener" href="https://blog.csdn.net/2302_79146825?spm=1011.2444.3001.5343">
-                        
-                            CSDN
-                        
-                        
-                    </a>
-                
-                    <a class="link-item" title="Idol" target="_blank" rel="noopener" href="https://www.taylorswift.com/">
-                        
-                            Idol
-                        
-                        
-                    </a>
-                
-            
-        </div>
+                <div class="container">
+    <article class="post-wrap page">
+        
+        <h2 class="post-title"></h2>
+        
+        <section class="post-content">
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your advice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h1 {
+            margin-bottom: 20px;
+        }
+        .container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .container form input, .container form textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .container form button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+        }
+        .container form button:hover {
+            background-color: #218838;
+        }
+        .messages {
+            margin-top: 20px;
+        }
+        .message {
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .message .date {
+            font-size: 0.8em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your advice</h1>
+        <form id="adviceForm">
+            <textarea name="message" rows="5" placeholder="Leave your advice" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <div class="messages" id="messages"></div>
     </div>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('adviceForm');
+            const messagesContainer = document.getElementById('messages');
+            const maxMessages = 500;
 
+            function loadMessages() {
+                const messages = JSON.parse(localStorage.getItem('messages')) || [];
+                messages.sort((a, b) => new Date(b.date) - new Date(a.date));
+                messagesContainer.innerHTML = '';
+                messages.forEach(({ message, date }) => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.innerHTML = `<p>${message}</p><p class="date">${date}</p>`;
+                    messagesContainer.appendChild(messageDiv);
+                });
+            }
+
+            function saveMessage(message) {
+                const date = new Date().toLocaleString();
+                let messages = JSON.parse(localStorage.getItem('messages')) || [];
+                if (!messages.some(msg => msg.message === message)) {
+                    messages.push({ message, date });
+                    if (messages.length > maxMessages) {
+                        messages.shift();
+                    }
+                    localStorage.setItem('messages', JSON.stringify(messages));
+                    loadMessages();
+                }
+                form.reset(); // Ensure the form is reset after saving the message
+            }
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const message = form.message.value.trim();
+                if (message) {
+                    saveMessage(message);
+                    alert('（别点关闭，赶紧截屏，不然白码字了）谢谢你的建议，但是你宝贵的建议仅仅停留在此页面，我看不到，因为我还不会做这样的留言版，如果你认识我，请私信我告诉我你的建议，再次感谢！(Don\'t close this, take a screenshot quickly, otherwise your words will be lost) Thank you for your advice, but your valuable advice stays only on this page, I can\'t see it because I don\'t know how to make such a message board yet. If you know me, please send me your advice. Thanks again!');
+                }
+            });
+
+            loadMessages();
+        });
+    </script>
+</body>
+</html>
+        </section>
+    </article>
+</div>
 
             </div>
             <footer id="footer" class="footer">
